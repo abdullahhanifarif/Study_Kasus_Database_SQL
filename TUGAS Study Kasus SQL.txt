@@ -1,0 +1,235 @@
+1.	MariaDB [(none)]> CREATE DATABASE studykasus;
+	Query OK, 1 row affected (0.038 sec)
+
+	MariaDB [(none)]> USE studykasus
+	Database changed
+	MariaDB [studykasus]>
+                                             
+                                                   
+                                                    
+                                                                                      
+2.	MariaDB [studykasus]> CREATE TABLE country(
+	    -> country_id SMALLINT(5) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	    ->  country VARCHAR(50) NOT NULL,
+	    -> last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+	    -> );
+	Query OK, 0 rows affected (0.046 sec)
+
+	MariaDB [studykasus]> DESC country;
+	+-------------+----------------------+------+-----+---------------------+-------------------------------+
+	| Field       | Type                 | Null | Key | Default             | Extra                         |
+	+-------------+----------------------+------+-----+---------------------+-------------------------------+
+	| country_id  | smallint(5) unsigned | NO   | PRI | NULL                | auto_increment                |
+	| country     | varchar(50)          | NO   |     | NULL                |                               |
+	| last_update | timestamp            | NO   |     | current_timestamp() | on update current_timestamp() |
+	+-------------+----------------------+------+-----+---------------------+-------------------------------+
+	3 rows in set (0.003 sec)
+
+	MariaDB [studykasus]>
+
+
+
+
+3.	MariaDB [studykasus]> CREATE TABLE city(
+	    -> city_id SMALLINT(5) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	    -> city VARCHAR(50) NOT NULL,
+	    -> country_id SMALLINT(5) UNSIGNED NOT NULL,
+	    -> last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	    -> FOREIGN KEY(country_id) REFERENCES country(country_id)
+	    -> );
+	Query OK, 0 rows affected (0.060 sec)
+
+	MariaDB [studykasus]> DESC city;
+	+-------------+----------------------+------+-----+---------------------+-------------------------------+
+	| Field       | Type                 | Null | Key | Default             | Extra                         |
+	+-------------+----------------------+------+-----+---------------------+-------------------------------+
+	| city_id     | smallint(5) unsigned | NO   | PRI | NULL                | auto_increment                |
+	| city        | varchar(50)          | NO   |     | NULL                |                               |
+	| country_id  | smallint(5) unsigned | NO   | MUL | NULL                |                               |
+	| last_update | timestamp            | NO   |     | current_timestamp() | on update current_timestamp() |
+	+-------------+----------------------+------+-----+---------------------+-------------------------------+
+	4 rows in set (0.021 sec)
+
+	MariaDB [studykasus]>
+
+
+
+
+4.	MariaDB [studykasus]> SOURCE c:/xampp/mysql/bin/country.sql;
+	Query OK, 109 rows affected (0.029 sec)
+	Records: 109  Duplicates: 0  Warnings: 0
+
+	MariaDB [studykasus]> SOURCE c:/xampp/mysql/bin/city.sql;
+	Query OK, 600 rows affected (0.022 sec)
+	Records: 600  Duplicates: 0  Warnings: 0
+
+	MariaDB [studykasus]>
+
+
+
+
+5.	MariaDB [studykasus]> CREATE USER 'Alan'@'localhost' IDENTIFIED BY 'ujianmysql';
+	Query OK, 0 rows affected (0.017 sec)
+
+	MariaDB [studykasus]> GRANT ALL ON studykasus.country TO Alan@localhost;
+	Query OK, 0 rows affected (0.050 sec)
+
+	MariaDB [studykasus]> GRANT ALL ON studykasus.city TO Alan@localhost;
+	Query OK, 0 rows affected (0.051 sec)
+
+	MariaDB [studykasus]> exit;
+	Bye
+
+	C:\Users\USER>mysql -uAlan -pujianmysql
+	Welcome to the MariaDB monitor.  Commands end with ; or \g.
+	Your MariaDB connection id is 1510
+	Server version: 10.4.21-MariaDB mariadb.org binary distribution
+
+	Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+	Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+	MariaDB [(none)]> SHOW DATABASES;
+	+--------------------+
+	| Database           |
+	+--------------------+
+	| information_schema |
+	| studykasus         |
+	+--------------------+
+	2 rows in set (0.001 sec)
+
+	MariaDB [(none)]> SHOW GRANTS;
+	+-------------------------------------------------------------------------------------------------------------+
+	| Grants for Alan@localhost                                                                                   |
+	+-------------------------------------------------------------------------------------------------------------+
+	| GRANT USAGE ON *.* TO `Alan`@`localhost` IDENTIFIED BY PASSWORD '*537C2443C831F1D1F5F20B9E7396538F6D558E10' |
+	| GRANT ALL PRIVILEGES ON `studykasus`.`country` TO `Alan`@`localhost`                                        |
+	| GRANT ALL PRIVILEGES ON `studykasus`.`city` TO `Alan`@`localhost`                                           |
+	+-------------------------------------------------------------------------------------------------------------+
+	3 rows in set (0.042 sec)
+
+	MariaDB [(none)]>
+
+
+
+
+6.	MariaDB [studykasus]> SELECT
+	    -> country AS `Country’s Name`,
+	    -> last_update As `Last Modified`
+	    -> FROM country
+	    -> ORDER BY country ASC
+	    -> LIMIT 30;
+	+---------------------------------------+---------------------+
+	| Country's Name                        | Last Modified       |
+	+---------------------------------------+---------------------+
+	| Afghanistan                           | 2006-02-14 21:44:00 |
+	| Algeria                               | 2006-02-14 21:44:00 |
+	| American Samoa                        | 2006-02-14 21:44:00 |
+	| Angola                                | 2006-02-14 21:44:00 |
+	| Anguilla                              | 2006-02-14 21:44:00 |
+	| Argentina                             | 2006-02-14 21:44:00 |
+	| Armenia                               | 2006-02-14 21:44:00 |
+	| Australia                             | 2006-02-14 21:44:00 |
+	| Austria                               | 2006-02-14 21:44:00 |
+	| Azerbaijan                            | 2006-02-14 21:44:00 |
+	| Bahrain                               | 2006-02-14 21:44:00 |
+	| Bangladesh                            | 2006-02-14 21:44:00 |
+	| Belarus                               | 2006-02-14 21:44:00 |
+	| Bolivia                               | 2006-02-14 21:44:00 |
+	| Brazil                                | 2006-02-14 21:44:00 |
+	| Brunei                                | 2006-02-14 21:44:00 |
+	| Bulgaria                              | 2006-02-14 21:44:00 |
+	| Cambodia                              | 2006-02-14 21:44:00 |
+	| Cameroon                              | 2006-02-14 21:44:00 |
+	| Canada                                | 2006-02-14 21:44:00 |
+	| Chad                                  | 2006-02-14 21:44:00 |
+	| Chile                                 | 2006-02-14 21:44:00 |
+	| China                                 | 2006-02-14 21:44:00 |
+	| Colombia                              | 2006-02-14 21:44:00 |
+	| Congo, The Democratic Republic of the | 2006-02-14 21:44:00 |
+	| Czech Republic                        | 2006-02-14 21:44:00 |
+	| Dominican Republic                    | 2006-02-14 21:44:00 |
+	| Ecuador                               | 2006-02-14 21:44:00 |
+	| Egypt                                 | 2006-02-14 21:44:00 |
+	| Estonia                               | 2006-02-14 21:44:00 |
+	+---------------------------------------+---------------------+
+	30 rows in set (0.000 sec)
+
+	MariaDB [studykasus]>
+
+
+
+
+7.	MariaDB [studykasus]> SELECT
+	    -> city As `City’s Name`, last_update As `Last Modified`
+	    -> FROM city
+	    -> ORDER BY city DESC
+	    -> LIMIT 20;
+	+--------------+---------------------+
+	| City's Name  | Last Modified       |
+	+--------------+---------------------+
+	| Ziguinchor   | 2006-02-14 21:45:25 |
+	| Zhoushan     | 2006-02-14 21:45:25 |
+	| Zhezqazghan  | 2006-02-14 21:45:25 |
+	| Zeleznogorsk | 2006-02-14 21:45:25 |
+	| Zaria        | 2006-02-14 21:45:25 |
+	| Zapopan      | 2006-02-14 21:45:25 |
+	| Zaoyang      | 2006-02-14 21:45:25 |
+	| Zanzibar     | 2006-02-14 21:45:25 |
+	| Zalantun     | 2006-02-14 21:45:25 |
+	| Yuzhou       | 2006-02-14 21:45:25 |
+	| Yuncheng     | 2006-02-14 21:45:25 |
+	| York         | 2006-02-14 21:45:25 |
+	| Yingkou      | 2006-02-14 21:45:25 |
+	| Yinchuan     | 2006-02-14 21:45:25 |
+	| Yerevan      | 2006-02-14 21:45:25 |
+	| Yaound       | 2006-02-14 21:45:25 |
+	| Yantai       | 2006-02-14 21:45:25 |
+	| Yangor       | 2006-02-14 21:45:25 |
+	| Yamuna Nagar | 2006-02-14 21:45:25 |
+	| Xinxiang     | 2006-02-14 21:45:25 |
+	+--------------+---------------------+
+	20 rows in set (0.001 sec)
+
+	MariaDB [studykasus]>
+
+
+
+
+8.	MariaDB [studykasus]> SELECT
+	    -> country.country AS `Country`,
+	    -> city.city AS `Part of City`
+	    -> FROM country, city
+	    -> WHERE country.country_id = city.country_id
+	    -> ORDER BY city.city ASC
+	    -> LIMIT 10;
+	+----------------------+--------------------+
+	| Country              | Part of City       |
+	+----------------------+--------------------+
+	| Spain                | A Corua (La Corua) |
+	| Saudi Arabia         | Abha               |
+	| United Arab Emirates | Abu Dhabi          |
+	| Mexico               | Acua               |
+	| Turkey               | Adana              |
+	| Ethiopia             | Addis Abeba        |
+	| Yemen                | Aden               |
+	| India                | Adoni              |
+	| India                | Ahmadnagar         |
+	| Japan                | Akishima           |
+	+----------------------+--------------------+
+	10 rows in set (0.057 sec)
+
+	MariaDB [studykasus]>
+
+
+
+
+9.	MariaDB [studykasus]> SELECT country.country AS `Country`,city.city AS `Part of City`
+	    -> FROM country, city WHERE country.country_id = city.country_id
+	    -> ORDER BY city.city ASC LIMIT 10
+	    -> INTO OUTFILE 'C:/1DATA/WEB DEVLOP/NIOMIC/6 Database/Study_Kasus_Database_SQL/studykasus.txt'
+	    -> FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	    -> LINES TERMINATED BY '\n';
+	Query OK, 10 rows affected, 1 warning (0.049 sec)
+
+	MariaDB [studykasus]>
